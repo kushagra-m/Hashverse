@@ -4,6 +4,7 @@
 
 The project implements a peer to peer chat program in Python (version 3.12.2, any version above 3 would work).
 With this program, a user can connect to peers over the TCP, send and receive messages simultaneously in real time, retrieve its own list of peers, query whether a peer is connected over their network, retrieve the list of peers of any peer that they're connected to, remove a peer from their network, etc.
+## (we have implemented the bonus question)
 
 ## Features
 1) The program enables users to connect to other users using TCP (peer to peer).
