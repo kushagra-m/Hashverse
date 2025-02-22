@@ -43,34 +43,7 @@ class P2PNode:
             except Exception as e:
                 if self.running:
                     print(f"[ERROR] Error accepting connections: {e}")
-
-    # def _handle_client(self, client_socket, addr):
-    #     """Receive and display messages from a connected peer."""
-    #     while self.running:
-    #         try:
-    #             data = client_socket.recv(1024)
-    #             if not data:
-    #                 # No data means the peer closed the connection
-    #                 print(f"[INFO] Connection closed by {addr}")
-    #                 break
-    #             message = data.decode('utf-8')
-    #             print(f"[RECEIVED] From {addr}: {message}")
-
-    #             # Automatically add the peer if it's not already in the list
-    #             self.add_peer_if_needed(client_socket, addr)
-
-    #             if message.startswith("exit"):
-    #                 _, peer_ip, peer_port = message.split()
-    #                 self.remove_peer(peer_ip, int(peer_port))
-
-    #             elif message == "QUERY_PEERS":
-    #                 peer_list = self.get_peer_list()
-    #                 client_socket.sendall(peer_list.encode('utf-8'))
-
-    #         except Exception as e:
-    #             print(f"[ERROR] Error reading from {addr}: {e}")
-    #             break
-    #     client_socket.close()
+                    
     def _handle_client(self, client_socket, addr):
         """Receive and display messages from a connected peer."""
         while self.running:
@@ -89,7 +62,6 @@ class P2PNode:
                 if len(parts) == 3:
                     sender_ip, sender_port, actual_message = parts
                     sender_port = int(sender_port)  # Convert port to int
-                    # print("Anjanayae")
                     # Add peer using extracted IP and Port
                     # self.add_peer_if_needed(client_socket, (sender_ip, sender_port))
                     self.connect_to_peer(sender_ip, sender_port)
@@ -206,19 +178,6 @@ class P2PNode:
                     print(peer)
             else:
                 print("[INFO] No connected peers.")
-    # def list_peers(self):
-    #     """Display all connected peers."""
-    #     with self.lock:
-    #         if self.peers:
-    #             print("[INFO] Connected peers:")
-    #             peer_set = set()  # ✅ Use a set to remove duplicates
-    #             for _, peer_ip, peer_port in self.peers:
-    #                 peer_set.add(f" - {peer_ip}:{peer_port}")  # ✅ Store unique (IP:port)
-                
-    #             for peer in sorted(peer_set):  # ✅ Print sorted list
-    #                 print(peer)
-    #         else:
-    #             print("[INFO] No connected peers.")
 
 
     def send_to_peers(self, message):
@@ -283,6 +242,14 @@ if __name__ == '__main__':
     # Interactive loop for commands.
     try:
         while True:
+            print('''List Of Commands : 
+                  1) Send (send a message to the connected peers. Usage : send <your_message>)
+                  2) Add (add a peer to your network. Usage : add <peer_ip> <peer_port>)
+                  3) Delete (Remove a peer from your network. Usage : delete <peer_ip> <peer_port>)
+                  4) List (display the list of your peers. Usage : list)
+                  5) Query (check whether a peer is connected on your network. Usage : query <peer_ip> <peer_port)
+                  6) Select (see the list of peers connected to a peer of yours. Usage : selecty <peer_ip> <peer_port>)
+                  7) Exit (exit the network. Usage : exit)''')
             command = input("Enter command (send/add/del/list/query/select/exit): ").strip()
             if not command:
                 continue
@@ -350,3 +317,6 @@ if __name__ == '__main__':
         print("\n[INFO] KeyboardInterrupt received.")
 
     node.stop()
+
+
+#Team Hashverse
